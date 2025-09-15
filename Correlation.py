@@ -1,10 +1,9 @@
-
 def printImg(img):
-    for i in img:
-        for j in i:
-            if (j<10):
-                print(" ",end="")
-            print(j,end=" ")
+    space_padding = len(str(max(max(row) for row in img)))
+    for row in img:
+        for val in row:
+            # print each value right-aligned
+            print(f"{val:>{space_padding}}", end=" ")
         print()
         # print(*i)
 
@@ -108,39 +107,38 @@ def wrapping():
 
 
 def Correlation(img):
-    new_img=[[]]
+    new_img = []
     for i in range(len(image)):
+        row_vals = []
         for j in range(len(image[0])):
-            val=0
-            for ii in range(-yPadding,yPadding+1):
-                for jj in range(-xPadding,xPadding+1):
-                    print( img[i+yPadding+ii][j+xPadding+jj] ,"*",kernel[yPadding+ii][xPadding+jj], end=" + ")
-                    val+=img[i+yPadding+ii][j+xPadding+jj]*kernel[yPadding+ii][xPadding+jj]
-            print("=",val)
+            val = 0
+            for ii in range(-yPadding, yPadding+1):
+                for jj in range(-xPadding, xPadding+1):
+                    print(img[i+yPadding+ii][j+xPadding+jj], "*", kernel[yPadding+ii][xPadding+jj], end=" + ")
+                    val += img[i+yPadding+ii][j+xPadding+jj] * kernel[yPadding+ii][xPadding+jj]
+            print("=", val)
             print("-"*100)
-            new_img[-1].append(val)
-        new_img.append([])
-        
+            row_vals.append(val)
+        new_img.append(row_vals)
     return new_img
 
 
 def Convolution(img):
-    new_img=[[]]
+    new_img = []
     printImg(img)
     for i in range(len(image)):
+        row_vals = []
         for j in range(len(image[0])):
-            val=0
-            for ii in range(-yPadding,yPadding+1):
-                for jj in range(-xPadding,xPadding+1):
-                    print( img[i+yPadding+ii][j+xPadding+jj] ,"*",convolKernal[yPadding+ii][xPadding+jj], end=" + ")
-                    val+=img[i+yPadding+ii][j+xPadding+jj]*convolKernal[yPadding+ii][xPadding+jj]
-            print("=",val)
+            val = 0
+            for ii in range(-yPadding, yPadding+1):
+                for jj in range(-xPadding, xPadding+1):
+                    print(img[i+yPadding+ii][j+xPadding+jj], "*", convolKernal[yPadding+ii][xPadding+jj], end=" + ")
+                    val += img[i+yPadding+ii][j+xPadding+jj] * convolKernal[yPadding+ii][xPadding+jj]
+            print("=", val)
             print("-"*100)
-            new_img[-1].append(val)
-        new_img.append([])
-        
+            row_vals.append(val)
+        new_img.append(row_vals)
     return new_img
-
 
 t = ''
 while(t!='q'):

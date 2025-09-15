@@ -2,20 +2,25 @@
 def printImg(img):
     for i in img:
         print(*i)
+
 image=[
     [0,0,0],
     [0,1,0],
     [0,0,0]
 ]
+
 kernel =[
     [1,2,3],
     [4,5,6],
     [7,8,9]
 ]
+
 convolKernal = list(reversed([list(reversed(x)) for x in kernel]))
-print(convolKernal)
+
 yPadding=len(kernel)//2
+
 xPadding=len(kernel[0])//2
+
 def paddingWith0():
     padding_with_0 = []
     for i in range(len(image)+2*yPadding):
@@ -24,6 +29,8 @@ def paddingWith0():
         else:
             padding_with_0.append([0]*xPadding + image[i-1] +[0]*xPadding)
     return padding_with_0
+
+
 def paddingExtended():
     padding_extend=[]
     for i in range(len(image)+2*yPadding):
@@ -34,7 +41,8 @@ def paddingExtended():
         else:
             padding_extend.append([image[i-1][0]]*xPadding + image[i-1]+ [image[i-1][-1]]*xPadding)
     return padding_extend
-    
+
+
 def paddingMirror():
     paddingMirror=[]
     for i in range(yPadding):
@@ -54,6 +62,19 @@ def paddingMirror():
             arr.append(image[i][len(image[0])-xPadding+j-1])
         paddingMirror.append(arr)
     return paddingMirror
+    
+def wrapping():
+    wrapping=[]
+    for i in range(len(image)+2*yPadding):
+        if i==0:
+            wrapping.append([image[0][0]]*xPadding + image[0] + [image[0][-1]]*xPadding)
+        elif i == (len(image)+2*yPadding)-1:
+            wrapping.append([image[-1][0]]*xPadding + image[-1]+ [image[-1][-1]]*xPadding)
+        else:
+            wrapping.append([image[i-1][0]]*xPadding + image[i-1]+ [image[i-1][-1]]*xPadding)
+    return wrapping
+
+
 def Correlation(img):
     new_img=[[]]
     for i in range(len(image)):
@@ -69,6 +90,9 @@ def Correlation(img):
         new_img.append([])
         
     return new_img
+
+
+
 def Convolution(img):
     new_img=[[]]
     for i in range(len(image)):
@@ -84,4 +108,44 @@ def Convolution(img):
         new_img.append([])
         
     return new_img
-printImg(Convolution(paddingWith0()))
+
+
+t = ''
+while(t!='q'):
+    padding = int(input('''
+  Padding techniques:
+  0. Padding With 0
+  1. Replicate Padding
+  2. Reflect / Mirror Padding
+  3. Wrapping
+  Enter Choice : '''))
+
+    process = int(input('''
+  Kernel types:
+  1. Convolution
+  2. Correlation
+  Enter Choice : '''))
+
+    padded_img = []
+
+    if not(0<=padding<=3):
+        print("Invalid padding input!")
+        continue
+    elif(padding == 0):
+        padded_img=paddingWith0()
+    elif(padding == 1):
+        padded_img=paddingExtended()
+    elif(padding == 2):
+        padded_img=paddingMirror()
+    elif(padding == 3):
+        padded_img=wrapping()
+
+    if not(1<=process<=2):
+        print("Invalid Process selected!")
+        continue
+    elif(process == 1):
+        printImg(Convolution(padded_img))
+    elif(process == 2):
+        printImg(Correlation(padded_img))
+    
+    t = input("Enter q to quit or c to continue : ")

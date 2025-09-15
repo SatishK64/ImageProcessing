@@ -16,7 +16,6 @@ kernel =[
 ]
 
 convolKernal = list(reversed([list(reversed(x)) for x in kernel]))
-
 yPadding=len(kernel)//2
 
 xPadding=len(kernel[0])//2
@@ -61,6 +60,14 @@ def paddingMirror():
         for j in range(xPadding):
             arr.append(image[i][len(image[0])-xPadding+j-1])
         paddingMirror.append(arr)
+    for i in range(yPadding):
+        arr=[]
+        for j in range(xPadding):
+            arr.append(image[len(image)-2-i][len(image[0])-2-j])
+        arr.extend(image[yPadding-i])
+        for j in range(xPadding):
+            arr.append(image[len(image)-2-i][len(image[0])-j-2])
+        paddingMirror.append(arr)
     return paddingMirror
     
 def wrapping():
@@ -85,7 +92,7 @@ def Correlation(img):
                     print( img[i+yPadding+ii][j+xPadding+jj] ,"*",kernel[yPadding+ii][xPadding+jj], end=" + ")
                     val+=img[i+yPadding+ii][j+xPadding+jj]*kernel[yPadding+ii][xPadding+jj]
             print("=",val)
-            print("------------------------")
+            print("-"*100)
             new_img[-1].append(val)
         new_img.append([])
         
@@ -95,6 +102,7 @@ def Correlation(img):
 
 def Convolution(img):
     new_img=[[]]
+    printImg(img)
     for i in range(len(image)):
         for j in range(len(image[0])):
             val=0
@@ -103,7 +111,7 @@ def Convolution(img):
                     print( img[i+yPadding+ii][j+xPadding+jj] ,"*",convolKernal[yPadding+ii][xPadding+jj], end=" + ")
                     val+=img[i+yPadding+ii][j+xPadding+jj]*convolKernal[yPadding+ii][xPadding+jj]
             print("=",val)
-            print("------------------------")
+            print("-"*100)
             new_img[-1].append(val)
         new_img.append([])
         

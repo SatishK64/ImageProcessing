@@ -15,22 +15,32 @@ image=[
     [50, 60, 70, 80, 90]
 ]
 
+# Mean Filter
+
+# kernel =[
+#     [1, 1, 1],
+#     [1, 1, 1],
+#     [1, 1, 1]
+# ]
+
+
+# Gaussian Filter
 
 # kernel =[
 #     [1, 2, 1],
 #     [2, 4, 2],
 #     [1, 2, 1]
 # ]
+
+
+# Weighted Center Filter
+
 kernel =[
     [1, 1, 1],
-    [1, 1, 1],
+    [1, 2, 1],
     [1, 1, 1]
 ]
-# kernel =[
-#     [1, 1, 1],
-#     [1, 2, 1],
-#     [1, 1, 1]
-# ]
+
 
 SM=sum([sum(x) for x in kernel])
 

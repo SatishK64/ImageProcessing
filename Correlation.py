@@ -8,17 +8,31 @@ def printImg(img):
         # print(*i)
 
 image=[
-    [ 1, 2, 3],
-    [ 4, 5, 6],
-    [ 7, 8, 9]
+    [10, 20, 30, 40, 50],
+    [20, 30, 40, 50, 60],
+    [30, 40, 50, 60, 70],
+    [40, 50, 60, 70, 80],
+    [50, 60, 70, 80, 90]
 ]
 
 
+# kernel =[
+#     [1, 2, 1],
+#     [2, 4, 2],
+#     [1, 2, 1]
+# ]
 kernel =[
-    [1,2,3],
-    [4,5,6],
-    [7,8,9]
+    [1, 1, 1],
+    [1, 1, 1],
+    [1, 1, 1]
 ]
+# kernel =[
+#     [1, 1, 1],
+#     [1, 2, 1],
+#     [1, 1, 1]
+# ]
+
+SM=sum([sum(x) for x in kernel])
 
 convolKernal = list(reversed([list(reversed(x)) for x in kernel]))
 
@@ -122,6 +136,22 @@ def Correlation(img):
         new_img.append(row_vals)
     return new_img
 
+def linear_filter(img):
+    new_img = []
+    for i in range(len(image)):
+        row_vals = []
+        for j in range(len(image[0])):
+            val = 0
+            for ii in range(-yPadding, yPadding+1):
+                for jj in range(-xPadding, xPadding+1):
+                    print(img[i+yPadding+ii][j+xPadding+jj], "*", kernel[yPadding+ii][xPadding+jj], end=" + ")
+                    val += img[i+yPadding+ii][j+xPadding+jj] * kernel[yPadding+ii][xPadding+jj]
+            print("=", val)
+            print("-"*100)
+            row_vals.append(val/SM)
+        new_img.append(row_vals)
+    return new_img
+
 
 def Convolution(img):
     new_img = []
@@ -171,15 +201,18 @@ while(t!='q'):
 
     if(valid):
         process = input('''
-  Kernel types:
+  Select Transformation:
   1. Convolution
   2. Correlation
+  3. Linear Transformation
   Enter Choice : ''')
         
         if(process == '1'):
             printImg(Convolution(padded_img))
         elif(process == '2'):
             printImg(Correlation(padded_img))
+        elif(process == '3'):
+            printImg(linear_filter(padded_img))
         else:
             print("\nInvalid Process selected!")
     
